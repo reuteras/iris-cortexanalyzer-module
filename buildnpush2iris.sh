@@ -19,11 +19,11 @@ Run()
     SEARCH_DIR='./dist'
     get_recent_file () {
         FILE=$(ls -Art1 ${SEARCH_DIR} | tail -n 1)
-        if [ ! -f ${FILE} ]; then
+        if [ ! -f "${FILE}" ]; then
             SEARCH_DIR="${SEARCH_DIR}/${FILE}"
             get_recent_file
         fi
-        echo $FILE
+        echo "$FILE"
         exit
     }
 
@@ -34,7 +34,7 @@ Run()
 
     echo "[BUILDnPUSH2IRIS] Found latest module file: $latest"
     echo "[BUILDnPUSH2IRIS] Copy module file to worker container.."
-    docker cp $latest iriswebapp_worker:/iriswebapp/dependencies/$module
+    docker cp "$latest" "iriswebapp_worker:/iriswebapp/dependencies/$module"
     echo "[BUILDnPUSH2IRIS] Installing module in worker container.."
     docker exec -it iriswebapp_worker /bin/sh -c "pip3 install dependencies/$module --force-reinstall"
     echo "[BUILDnPUSH2IRIS] Restarting worker container.."
@@ -42,7 +42,7 @@ Run()
 
     if [ "$a_Flag" = true ] ; then
         echo "[BUILDnPUSH2IRIS] Copy module file to app container.."
-        docker cp $latest iriswebapp_app:/iriswebapp/dependencies/$module
+        docker cp "$latest" "iriswebapp_app:/iriswebapp/dependencies/$module"
         echo "[BUILDnPUSH2IRIS] Installing module in app container.."
         docker exec -it iriswebapp_app /bin/sh -c "pip3 install dependencies/$module --force-reinstall"
         echo "[BUILDnPUSH2IRIS] Restarting app container.."
