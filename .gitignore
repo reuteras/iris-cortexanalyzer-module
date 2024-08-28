@@ -2,8 +2,9 @@
 __pycache__/
 *.py[cod]
 
-images/
 build/
+dist/
+images/
 .venv/
 wheels/
 *.egg-info/
